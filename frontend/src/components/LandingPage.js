@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
-import { Volume2, Waves, Zap, Award, Calendar, Mail, MapPin, Phone } from 'lucide-react';
+import { Volume2, Waves, Zap, Award, Mail, MapPin, Phone } from 'lucide-react';
 
 const HeroSection = () => {
   const ref = useRef(null);
