@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import { Volume2, Waves, Zap, Award, Mail, MapPin, Phone } from 'lucide-react';
@@ -67,7 +67,7 @@ const SERVICES_DATA = [
 ];
 
 // Hero Section Component
-function HeroSection() {
+const HeroSection = memo(function HeroSection() {
   const ref = useRef(null);
   const scrollData = useScroll({
     target: ref,
@@ -82,11 +82,14 @@ function HeroSection() {
       <motion.div 
         style={{ y }}
         className="absolute inset-0"
+        layout={false}
       >
         <img
           src="https://images.unsplash.com/photo-1615135902020-f499dc74b655?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85"
           alt="Luxury car interior"
           className="w-full h-full object-cover"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 hero-gradient" />
       </motion.div>
@@ -105,7 +108,7 @@ function HeroSection() {
               className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 text-glow"
               data-testid="hero-title"
             >
-              SONIC ATELIER
+              VELOCITY PRO AUDIO
             </motion.h1>
             <motion.p 
               className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto font-light"
@@ -158,10 +161,10 @@ function HeroSection() {
       </motion.div>
     </section>
   );
-}
+});
 
 // Story Section Component
-function StorySection({ icon: Icon, title, description, delay = 0 }) {
+const StorySection = memo(function StorySection({ icon: Icon, title, description, delay = 0 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -182,10 +185,10 @@ function StorySection({ icon: Icon, title, description, delay = 0 }) {
       <p className="text-gray-400 leading-relaxed">{description}</p>
     </motion.div>
   );
-}
+});
 
 // Philosophy Section Component
-function PhilosophySection() {
+const PhilosophySection = memo(function PhilosophySection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-200px" });
 
@@ -243,6 +246,8 @@ function PhilosophySection() {
               src="https://images.unsplash.com/photo-1653579656806-b290ca2efd83?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHw0fHxoaWdoJTIwZW5kJTIwYXVkaW8lMjBzcGVha2VyJTIwY2xvc2UlMjB1cCUyMG1hY3JvJTIwZGV0YWlsfGVufDB8fHx8MTc2OTkzMjkzNnww&ixlib=rb-4.1.0&q=85"
               alt="High-end audio equipment"
               className="w-full h-full object-cover image-scale"
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="space-y-6">
@@ -266,10 +271,10 @@ function PhilosophySection() {
       </div>
     </section>
   );
-}
+});
 
 // Gallery Section Component
-function GallerySection() {
+const GallerySection = memo(function GallerySection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -292,7 +297,7 @@ function GallerySection() {
         <div className="tetris-grid">
           {PROJECTS_DATA.map((project, index) => (
             <motion.div
-              key={index}
+              key={project.title}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -303,6 +308,8 @@ function GallerySection() {
                 src={project.image}
                 alt={project.title}
                 className="w-full h-full object-cover image-scale"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -316,10 +323,10 @@ function GallerySection() {
       </div>
     </section>
   );
-}
+});
 
 // Services Section Component
-function ServicesSection() {
+const ServicesSection = memo(function ServicesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -365,10 +372,10 @@ function ServicesSection() {
       </div>
     </section>
   );
-}
+});
 
 // Team Section Component
-function TeamSection() {
+const TeamSection = memo(function TeamSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -398,7 +405,7 @@ function TeamSection() {
               kick drum. The shimmer of a cymbal. The presence of a vocalist. These are the details we obsess over.
             </p>
             <p className="text-lg leading-relaxed">
-              When you work with Sonic Atelier, you're not hiring installers. You're partnering with people 
+              When you work with VELOCITY PRO AUDIO, you're not hiring installers. You're partnering with people 
               who care about your listening experience as much as you do.
             </p>
           </div>
@@ -406,7 +413,7 @@ function TeamSection() {
       </div>
     </section>
   );
-}
+});
 
 // Booking Section Component
 function BookingSection() {
@@ -591,7 +598,7 @@ function BookingSection() {
 }
 
 // Contact Section Component
-function ContactSection() {
+const ContactSection = memo(function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -631,19 +638,49 @@ function ContactSection() {
       </div>
     </section>
   );
+});
+
+// Throttle helper to limit scroll handler execution
+function useThrottle(callback, delay) {
+  const lastRun = useRef(0);
+  const timeoutRef = useRef(null);
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+
+  useEffect(() => {
+    const throttled = () => {
+      const now = Date.now();
+      const remaining = delay - (now - lastRun.current);
+      if (remaining <= 0) {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+        lastRun.current = now;
+        callbackRef.current();
+      } else if (!timeoutRef.current) {
+        timeoutRef.current = setTimeout(() => {
+          lastRun.current = Date.now();
+          timeoutRef.current = null;
+          callbackRef.current();
+        }, remaining);
+      }
+    };
+    window.addEventListener('scroll', throttled, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', throttled);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [delay]);
 }
 
 // Navigation Component
 function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 50);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  useThrottle(() => {
+    setScrolled(window.scrollY > 50);
+  }, 100);
 
   return (
     <nav 
@@ -653,7 +690,7 @@ function Navigation() {
       data-testid="main-navigation"
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold tracking-tight" data-testid="nav-logo">SONIC ATELIER</a>
+        <a href="#" className="text-2xl font-bold tracking-tight" data-testid="nav-logo">VELOCITY PRO AUDIO</a>
         <div className="hidden md:flex gap-8">
           <a href="#philosophy" className="text-sm tracking-wider hover:text-blue-400 transition-colors" data-testid="nav-philosophy">PHILOSOPHY</a>
           <a href="#work" className="text-sm tracking-wider hover:text-blue-400 transition-colors" data-testid="nav-work">WORK</a>
@@ -672,7 +709,7 @@ function Footer() {
   return (
     <footer className="bg-[#0A0A0A] border-t border-white/10 py-12 px-6" data-testid="main-footer">
       <div className="max-w-7xl mx-auto text-center text-gray-500 text-sm">
-        <p>© 2025 Sonic Atelier. All rights reserved.</p>
+        <p>© 2025 VELOCITY PRO AUDIO. All rights reserved.</p>
         <p className="mt-2">Crafting immersive sound experiences for discerning audiophiles.</p>
       </div>
     </footer>
@@ -688,15 +725,24 @@ export default function LandingPage() {
       smooth: true,
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    // Disable native smooth scroll so Lenis controls it (avoids conflict + extra work)
+    const html = document.documentElement;
+    const prevScrollBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
 
-    requestAnimationFrame(raf);
+    let rafId = null;
+    function raf(time) {
+      if (document.visibilityState === 'visible') {
+        lenis.raf(time);
+      }
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
+      html.style.scrollBehavior = prevScrollBehavior;
     };
   }, []);
 
