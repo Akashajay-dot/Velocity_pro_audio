@@ -3,15 +3,79 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import { Volume2, Waves, Zap, Award, Mail, MapPin, Phone } from 'lucide-react';
 
-const HeroSection = () => {
+// Data constants
+const PROJECTS_DATA = [
+  {
+    title: "Mercedes-AMG GT",
+    category: "Complete System Build",
+    image: "https://images.unsplash.com/photo-1768024175212-98eb7cd5ca46?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85",
+    description: "18-speaker custom array with DSP tuning"
+  },
+  {
+    title: "Porsche 911",
+    category: "DSP Calibration",
+    image: "https://images.unsplash.com/photo-1610698517225-78fcfe40aceb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85",
+    description: "RTA 7-mic tuning for concert hall acoustics"
+  },
+  {
+    title: "Audi RS6",
+    category: "System Upgrade",
+    image: "https://images.unsplash.com/photo-1597183739841-5ca26ab0a604?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwzfHxoaWdoJTIwZW5kJTIwYXVkaW8lMjBzcGVha2VyJTIwY2xvc2UlMjB1cCUyMG1hY3JvJTIwZGV0YWlsfGVufDB8fHx8MTc2OTkzMjkzNnww&ixlib=rb-4.1.0&q=85",
+    description: "Premium component speakers & subwoofer integration"
+  },
+  {
+    title: "BMW M5",
+    category: "Complete System Build",
+    image: "https://images.unsplash.com/photo-1615135902020-f499dc74b655?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85",
+    description: "Multi-amplifier setup with VCP imaging"
+  },
+  {
+    title: "Tesla Model S",
+    category: "Sound Design",
+    image: "https://images.unsplash.com/photo-1655931546508-9f948f52e079?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHw0fHxzb3VuZCUyMGVuZ2luZWVyJTIwaGFuZHMlMjB0dW5pbmclMjBhdWRpbyUyMG1peGVyJTIwZGFyayUyMHN0dWRpb3xlbnwwfHx8fDE3Njk5MzI5NDB8MA&ixlib=rb-4.1.0&q=85",
+    description: "Acoustic consultation & tuning optimization"
+  },
+  {
+    title: "Range Rover",
+    category: "Premium Install",
+    image: "https://images.unsplash.com/photo-1653579656806-b290ca2efd83?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHw0fHxoaWdoJTIwZW5kJTIwYXVkaW8lMjBzcGVha2VyJTIwY2xvc2UlMjB1cCUyMG1hY3JvJTIwZGV0YWlsfGVufDB8fHx8MTc2OTkzMjkzNnww&ixlib=rb-4.1.0&q=85",
+    description: "Luxury sound system with custom fabrication"
+  }
+];
+
+const SERVICES_DATA = [
+  {
+    title: "Custom Audio Builds",
+    description: "Complete system design and installation from the ground up. Premium components, custom fabrication, and meticulous attention to detail.",
+    features: ["Component Selection", "Custom Fabrication", "Professional Installation"]
+  },
+  {
+    title: "DSP Tuning & Calibration",
+    description: "RTA 7-microphone tuning for perfect frequency response. Time alignment, phase correction, and VCP imaging.",
+    features: ["RTA Analysis", "Time Alignment", "VCP Technology"]
+  },
+  {
+    title: "System Upgrades",
+    description: "Transform your existing setup with strategic component upgrades and professional tuning optimization.",
+    features: ["Speaker Upgrades", "Amplifier Integration", "Subwoofer Addition"]
+  },
+  {
+    title: "Consultation & Sound Design",
+    description: "Expert guidance on system planning, acoustic analysis, and custom sound signature development.",
+    features: ["System Planning", "Acoustic Analysis", "Sound Signature Design"]
+  }
+];
+
+// Hero Section Component
+function HeroSection() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
+  const scrollData = useScroll({
     target: ref,
     offset: ["start start", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
+  const y = useTransform(scrollData.scrollYProgress, [0, 1], ['0%', '50%']);
+  const opacity = useTransform(scrollData.scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
 
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden" data-testid="hero-section">
@@ -94,9 +158,10 @@ const HeroSection = () => {
       </motion.div>
     </section>
   );
-};
+}
 
-const StorySection = ({ icon: Icon, title, description, delay = 0 }) => {
+// Story Section Component
+function StorySection({ icon: Icon, title, description, delay = 0 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -117,9 +182,10 @@ const StorySection = ({ icon: Icon, title, description, delay = 0 }) => {
       <p className="text-gray-400 leading-relaxed">{description}</p>
     </motion.div>
   );
-};
+}
 
-const PhilosophySection = () => {
+// Philosophy Section Component
+function PhilosophySection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-200px" });
 
@@ -200,50 +266,12 @@ const PhilosophySection = () => {
       </div>
     </section>
   );
-};
+}
 
-const GallerySection = () => {
+// Gallery Section Component
+function GallerySection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const projects = [
-    {
-      title: "Mercedes-AMG GT",
-      category: "Complete System Build",
-      image: "https://images.unsplash.com/photo-1768024175212-98eb7cd5ca46?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85",
-      description: "18-speaker custom array with DSP tuning"
-    },
-    {
-      title: "Porsche 911",
-      category: "DSP Calibration",
-      image: "https://images.unsplash.com/photo-1610698517225-78fcfe40aceb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85",
-      description: "RTA 7-mic tuning for concert hall acoustics"
-    },
-    {
-      title: "Audi RS6",
-      category: "System Upgrade",
-      image: "https://images.unsplash.com/photo-1597183739841-5ca26ab0a604?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwzfHxoaWdoJTIwZW5kJTIwYXVkaW8lMjBzcGVha2VyJTIwY2xvc2UlMjB1cCUyMG1hY3JvJTIwZGV0YWlsfGVufDB8fHx8MTc2OTkzMjkzNnww&ixlib=rb-4.1.0&q=85",
-      description: "Premium component speakers & subwoofer integration"
-    },
-    {
-      title: "BMW M5",
-      category: "Complete System Build",
-      image: "https://images.unsplash.com/photo-1615135902020-f499dc74b655?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBjYXIlMjBpbnRlcmlvciUyMG5pZ2h0JTIwYW1iaWVudCUyMGxpZ2h0aW5nfGVufDB8fHx8MTc2OTkzMjkzMHww&ixlib=rb-4.1.0&q=85",
-      description: "Multi-amplifier setup with VCP imaging"
-    },
-    {
-      title: "Tesla Model S",
-      category: "Sound Design",
-      image: "https://images.unsplash.com/photo-1655931546508-9f948f52e079?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHw0fHxzb3VuZCUyMGVuZ2luZWVyJTIwaGFuZHMlMjB0dW5pbmclMjBhdWRpbyUyMG1peGVyJTIwZGFyayUyMHN0dWRpb3xlbnwwfHx8fDE3Njk5MzI5NDB8MA&ixlib=rb-4.1.0&q=85",
-      description: "Acoustic consultation & tuning optimization"
-    },
-    {
-      title: "Range Rover",
-      category: "Premium Install",
-      image: "https://images.unsplash.com/photo-1653579656806-b290ca2efd83?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHw0fHxoaWdoJTIwZW5kJTIwYXVkaW8lMjBzcGVha2VyJTIwY2xvc2UlMjB1cCUyMG1hY3JvJTIwZGV0YWlsfGVufDB8fHx8MTc2OTkzMjkzNnww&ixlib=rb-4.1.0&q=85",
-      description: "Luxury sound system with custom fabrication"
-    }
-  ];
 
   return (
     <section id="work" className="py-32 px-6" data-testid="gallery-section">
@@ -262,7 +290,7 @@ const GallerySection = () => {
         </motion.div>
 
         <div className="tetris-grid">
-          {projects.map((project, index) => (
+          {PROJECTS_DATA.map((project, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 40 }}
@@ -288,34 +316,12 @@ const GallerySection = () => {
       </div>
     </section>
   );
-};
+}
 
-const ServicesSection = () => {
+// Services Section Component
+function ServicesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const services = [
-    {
-      title: "Custom Audio Builds",
-      description: "Complete system design and installation from the ground up. Premium components, custom fabrication, and meticulous attention to detail.",
-      features: ["Component Selection", "Custom Fabrication", "Professional Installation"]
-    },
-    {
-      title: "DSP Tuning & Calibration",
-      description: "RTA 7-microphone tuning for perfect frequency response. Time alignment, phase correction, and VCP imaging.",
-      features: ["RTA Analysis", "Time Alignment", "VCP Technology"]
-    },
-    {
-      title: "System Upgrades",
-      description: "Transform your existing setup with strategic component upgrades and professional tuning optimization.",
-      features: ["Speaker Upgrades", "Amplifier Integration", "Subwoofer Addition"]
-    },
-    {
-      title: "Consultation & Sound Design",
-      description: "Expert guidance on system planning, acoustic analysis, and custom sound signature development.",
-      features: ["System Planning", "Acoustic Analysis", "Sound Signature Design"]
-    }
-  ];
 
   return (
     <section id="services" className="py-32 px-6 bg-[#0A0A0A]" data-testid="services-section">
@@ -334,7 +340,7 @@ const ServicesSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {services.map((service, index) => (
+          {SERVICES_DATA.map((service, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 40 }}
@@ -359,9 +365,10 @@ const ServicesSection = () => {
       </div>
     </section>
   );
-};
+}
 
-const TeamSection = () => {
+// Team Section Component
+function TeamSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -399,9 +406,10 @@ const TeamSection = () => {
       </div>
     </section>
   );
-};
+}
 
-const BookingSection = () => {
+// Booking Section Component
+function BookingSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -504,9 +512,10 @@ const BookingSection = () => {
       </div>
     </section>
   );
-};
+}
 
-const ContactSection = () => {
+// Contact Section Component
+function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -546,9 +555,10 @@ const ContactSection = () => {
       </div>
     </section>
   );
-};
+}
 
-const Navigation = () => {
+// Navigation Component
+function Navigation() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -579,9 +589,10 @@ const Navigation = () => {
       </div>
     </nav>
   );
-};
+}
 
-const Footer = () => {
+// Footer Component
+function Footer() {
   return (
     <footer className="bg-[#0A0A0A] border-t border-white/10 py-12 px-6" data-testid="main-footer">
       <div className="max-w-7xl mx-auto text-center text-gray-500 text-sm">
@@ -590,8 +601,9 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+}
 
+// Main Landing Page Component
 export default function LandingPage() {
   useEffect(() => {
     const lenis = new Lenis({
