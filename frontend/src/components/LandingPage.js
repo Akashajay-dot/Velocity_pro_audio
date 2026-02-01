@@ -479,13 +479,16 @@ function BookingSection() {
             Let's discuss your vision for the perfect audio experience.
           </p>
 
-          <form className="space-y-6" data-testid="booking-form">
+          <form className="space-y-6" onSubmit={handleSubmit} data-testid="booking-form">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium mb-2" htmlFor="name">Name</label>
                 <input
                   type="text"
                   id="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                   className="w-full bg-[#121212] border border-white/10 focus:border-blue-400 h-14 px-4 text-white placeholder:text-white/20 transition-all outline-none"
                   placeholder="Your name"
                   data-testid="booking-name-input"
@@ -496,6 +499,9 @@ function BookingSection() {
                 <input
                   type="email"
                   id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                   className="w-full bg-[#121212] border border-white/10 focus:border-blue-400 h-14 px-4 text-white placeholder:text-white/20 transition-all outline-none"
                   placeholder="your@email.com"
                   data-testid="booking-email-input"
@@ -509,6 +515,9 @@ function BookingSection() {
                 <input
                   type="tel"
                   id="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
                   className="w-full bg-[#121212] border border-white/10 focus:border-blue-400 h-14 px-4 text-white placeholder:text-white/20 transition-all outline-none"
                   placeholder="(555) 123-4567"
                   data-testid="booking-phone-input"
@@ -519,6 +528,9 @@ function BookingSection() {
                 <input
                   type="text"
                   id="vehicle"
+                  value={formData.vehicle}
+                  onChange={handleChange}
+                  required
                   className="w-full bg-[#121212] border border-white/10 focus:border-blue-400 h-14 px-4 text-white placeholder:text-white/20 transition-all outline-none"
                   placeholder="Year, Make, Model"
                   data-testid="booking-vehicle-input"
@@ -530,6 +542,9 @@ function BookingSection() {
               <label className="block text-sm font-medium mb-2" htmlFor="service">Service Interest</label>
               <select
                 id="service"
+                value={formData.service}
+                onChange={handleChange}
+                required
                 className="w-full bg-[#121212] border border-white/10 focus:border-blue-400 h-14 px-4 text-white transition-all outline-none"
                 data-testid="booking-service-select"
               >
@@ -546,18 +561,27 @@ function BookingSection() {
               <textarea
                 id="message"
                 rows={5}
+                value={formData.message}
+                onChange={handleChange}
                 className="w-full bg-[#121212] border border-white/10 focus:border-blue-400 px-4 py-4 text-white placeholder:text-white/20 transition-all outline-none resize-none"
                 placeholder="Tell us about your audio goals..."
                 data-testid="booking-message-textarea"
               />
             </div>
 
+            {submitMessage && (
+              <div className={`text-center p-4 border ${submitMessage.includes('Thank') ? 'border-green-500 text-green-400' : 'border-red-500 text-red-400'}`}>
+                {submitMessage}
+              </div>
+            )}
+
             <button
               type="submit"
-              className="w-full bg-white text-black hover:bg-gray-200 px-8 py-4 font-bold tracking-wide uppercase text-sm transition-all duration-300"
+              disabled={isSubmitting}
+              className="w-full bg-white text-black hover:bg-gray-200 px-8 py-4 font-bold tracking-wide uppercase text-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               data-testid="booking-submit-btn"
             >
-              Submit Request
+              {isSubmitting ? 'Submitting...' : 'Submit Request'}
             </button>
           </form>
         </motion.div>
